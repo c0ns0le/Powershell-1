@@ -1,0 +1,18 @@
+Get SQL Admins:
+	SELECT	name,
+		IS_SRVROLEMEMBER('sysadmin', name)	AS	[Admin]
+		FROM	sys.server_principals
+	WHERE IS_SRVROLEMEMBER('sysadmin', name) = 1
+		AND name NOT LIKE 'NT%'
+		AND name NOT LIKE '%SQL%'
+	ORDER BY name
+
+Get user databases:
+	SELECT name 
+	FROM sys.databases
+	WHERE name NOT IN ('master','msdb','model','tempdb','ReportingMaster','ReportServer','ReportServerTempDB')
+	
+Export installed applications and versions:
+	Get-WmiObject win32_Product  | Select Name,Version | Sort Name | Export-Csv H:\Inventory\<server_name_here>_report.csv
+	
+	
